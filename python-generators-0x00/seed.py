@@ -70,3 +70,6 @@ def stream_data(connection):
         yield row  
     
     cursor.close()
+    connection.close()
+    
+    
