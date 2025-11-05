@@ -19,7 +19,7 @@ if connection:
         print("Streaming user data:")
         for user in seed.stream_data(connection):
             print(user)
-        # Step 5: Create the table
+       
         seed.create_table(connection)
         
         # Step 6: Insert data from CSV

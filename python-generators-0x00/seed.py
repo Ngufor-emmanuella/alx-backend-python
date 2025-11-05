@@ -50,7 +50,7 @@ def insert_data(connection, csv_file):
     with open(csv_file, mode='r') as file:
         reader = csv.DictReader(file)
         for row in reader:
-            # Generate a new UUID for each user_id
+           
             user_id = str(uuid.uuid4())
             cursor.execute("""
                 INSERT IGNORE INTO user_data (user_id, name, email, age)
@@ -67,6 +67,6 @@ def stream_data(connection):
     cursor.execute("SELECT * FROM user_data;")
     
     for row in cursor:
-        yield row  # Yield each row one at a time
+        yield row  
     
     cursor.close()
