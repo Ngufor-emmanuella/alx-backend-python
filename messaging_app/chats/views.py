@@ -14,7 +14,12 @@ class ConversationViewSet(viewsets.ModelViewSet):
         """Create a new conversation."""
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
-        self.perform_create(serializer)
+        conversation = serializer.save()  # Save and get the conversation instance
+        
+        # Handle participants
+        participants = request.data.get('participants', [])
+        conversation.participants.set(participants)  # Using set() to assign participants
+        
         return Response(serializer.data, status=status.HTTP_201_CREATED)
 
 

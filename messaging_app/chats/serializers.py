@@ -25,7 +25,7 @@ class ConversationSerializer(serializers.ModelSerializer):
     class Meta:
         model = Conversation
         fields = ('conversation_id', 'participants', 'messages', 'created_at')
-    
+
     def create(self, validated_data):
         """Handle creation of a Conversation with nested Messages."""
         messages_data = validated_data.pop('messages', [])
