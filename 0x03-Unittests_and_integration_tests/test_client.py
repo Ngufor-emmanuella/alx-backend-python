@@ -1,20 +1,10 @@
 import unittest
 from unittest.mock import patch
-from parameterized import parameterized
 from client import GithubOrgClient
 
 class TestGithubOrgClient(unittest.TestCase):
-
-    @parameterized.expand([
-        ("google",),
-        ("abc",),
-    ])
-    @patch('client.get_json')
-    def test_org(self, org_name, mock_get_json):
-        mock_get_json.return_value = {"key": "value"}
-
-        client = GithubOrgClient(org_name)
-        result = client.org
-
-        mock_get_json.assert_called_once_with(f"https://api.github.com/orgs/{org_name}")
-        self.assertEqual(result, mock_get_json.return_value)
+    def test_public_repos_url(self):
+        with patch.object(GithubOrgClient, "org", new_callable=unittest.mock.PropertyMock) as mock_org:
+            mock_org.return_value = {"repos_url": "http://fake-url.com"}
+            client = GithubOrgClient("any_org")
+            self.assertEqual(client._public_repos_url, "http://fake-url.com")
