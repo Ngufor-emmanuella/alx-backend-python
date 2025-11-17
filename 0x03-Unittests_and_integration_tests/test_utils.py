@@ -1,26 +1,17 @@
 import unittest
-from unittest.mock import patch
-from client import GithubOrgClient  # Adjust the import based on your project structure
+from parameterized import parameterized
+from utils import access_nested_map  # Adjust based on your project structure
 
-class TestGithubOrgClient(unittest.TestCase):
+class TestAccessNestedMap(unittest.TestCase):
 
-    @patch('client.GithubOrgClient.org')
-    def test_public_repos_url(self, mock_org):
-        """Test that _public_repos_url returns the correct URL based on the mocked payload."""
-        
-        # Set up the mock return value for org
-        mock_org.return_value = {
-            'repos_url': 'https://api.github.com/orgs/google/repos'
-        }
-        
-        # Create an instance of GithubOrgClient
-        client = GithubOrgClient('google')
-        
-        # Access the _public_repos_url property
-        result = client._public_repos_url
-        
-        # Check that the result is as expected
-        self.assertEqual(result, 'https://api.github.com/orgs/google/repos')
+    @parameterized.expand([
+        ({"a": 1}, ("a",), 1),
+        ({"a": {"b": 2}}, ("a",), {"b": 2}),
+        ({"a": {"b": 2}}, ("a", "b"), 2),
+    ])
+    def test_access_nested_map(self, nested_map, path, expected):
+        """Test access_nested_map for different inputs."""
+        self.assertEqual(access_nested_map(nested_map, path), expected)
 
 if __name__ == '__main__':
     unittest.main()
