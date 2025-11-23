@@ -6,7 +6,7 @@ from .serializers import ConversationSerializer, MessageSerializer
 from .permissions import IsAuthenticatedAndParticipant
 from .filters import MessageFilter
 from django_filters.rest_framework import DjangoFilterBackend
-
+from .permissions import IsParticipantOfConversatio
 
 
 class ConversationViewSet(viewsets.ModelViewSet):
