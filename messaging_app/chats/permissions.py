@@ -3,9 +3,14 @@
 from rest_framework import permissions
 
 class IsOwner(permissions.BasePermission):
-    """
-    Custom permission to only allow owners of a message to view or edit it.
-    """
-
+   
     def has_object_permission(self, request, view, obj):
-        return obj.owner == request.user  # Assuming obj has an 'owner' attribute
+        if not request.user.is_authenticated:
+            return False
+
+        # Check if the user is a participant in the conversation
+        return obj.conversation.participants.filter(id=request.user.id).exists()
+    
+    def has_permission(self, request, view):
+        # Allow access only for authenticated users
+        return request.user and request.user.is_authenticated

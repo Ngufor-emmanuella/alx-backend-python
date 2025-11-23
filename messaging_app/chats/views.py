@@ -3,7 +3,7 @@ from rest_framework.response import Response
 from rest_framework import status
 from .models import Conversation, Message
 from .serializers import ConversationSerializer, MessageSerializer
-from .permissions import IsOwner
+from .permissions import IsAuthenticatedAndParticipant
 
 
 class ConversationViewSet(viewsets.ModelViewSet):
@@ -29,8 +29,8 @@ class MessageViewSet(viewsets.ModelViewSet):
     """Viewset for handling messages."""
     queryset = Message.objects.all()
     serializer_class = MessageSerializer
-    permission_classes = [IsOwner]
-
+    permission_classes = [IsAuthenticatedAndParticipant] 
+   
     def create(self, request, *args, **kwargs):
         """Send a message to an existing conversation."""
         serializer = self.get_serializer(data=request.data)
