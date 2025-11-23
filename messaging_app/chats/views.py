@@ -31,9 +31,21 @@ class MessageViewSet(viewsets.ModelViewSet):
     serializer_class = MessageSerializer
     permission_classes = [IsAuthenticatedAndParticipant] 
    
+    def get_queryset(self):
+        user = self.request.user
+        conversation_id = self.kwargs.get('conversation_id')  # Assuming your URL has this parameter
+
+        if conversation_id:
+            return Message.objects.filter(conversation_id=conversation_id, conversation__participants=user)
+
+        return Message.objects.none()  # Return an empty queryset if no conversation_id provided
+
     def create(self, request, *args, **kwargs):
-        """Send a message to an existing conversation."""
-        serializer = self.get_serializer(data=request.data)
-        serializer.is_valid(raise_exception=True)
-        self.perform_create(serializer)
-        return Response(serializer.data, status=status.HTTP_201_CREATED)
+        # Ensure the user is a participant before creating a message
+        conversation_id = self.kwargs.get('conversation_id')
+        conversation = self.get_object()  # Make sure to implement this method to get the conversation
+
+        if conversation.participants.filter(id=request.user.id).exists():
+            return super().create(request, *args, **kwargs)
+        else:
+            return Response({"detail": "You do not have permission to perform this action."}, status=status.HTTP_403_FORBIDDEN)
