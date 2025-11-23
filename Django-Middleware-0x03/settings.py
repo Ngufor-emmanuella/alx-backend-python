@@ -53,7 +53,6 @@ MIDDLEWARE = [
     'chats.middleware.RequestLoggingMiddleware',
     'chats.middleware.RequestLoggingMiddleware',  # Existing middleware
     'chats.middleware.RestrictAccessByTimeMiddleware',
-    'chats.middleware.OffensiveLanguageMiddleware', 
     'chats.middleware.RolePermissionMiddleware', # Add the new middleware
 ]
 
