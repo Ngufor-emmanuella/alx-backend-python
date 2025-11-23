@@ -9,3 +9,8 @@ class CustomPagination(PageNumberPagination):
 
     def get_paginated_response(self, data):
         return super().get_paginated_response(data)
+    
+    # Add a line to expose the count of total items if necessary
+    @property
+    def count(self):
+        return self.paginator.count  # Access the total count of items
