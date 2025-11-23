@@ -140,7 +140,7 @@ REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': (
         'rest_framework.permissions.IsAuthenticated',
     ),
-    'DEFAULT_PAGINATION_CLASS': 'messaging_app.settings.CustomPagination', 
+    'DEFAULT_PAGINATION_CLASS': 'messaging_app.chats.pagination.CustomPagination', 
     'PAGE_SIZE': 20,  # Set default page size to 20 messages
 }
 

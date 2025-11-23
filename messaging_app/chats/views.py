@@ -6,6 +6,7 @@ from .serializers import ConversationSerializer, MessageSerializer
 from .permissions import IsAuthenticatedAndParticipant
 from .filters import MessageFilter
 from django_filters.rest_framework import DjangoFilterBackend
+from .pagination import CustomPagination
 from .permissions import IsParticipantOfConversatio
 
 
@@ -32,9 +33,10 @@ class MessageViewSet(viewsets.ModelViewSet):
     """Viewset for handling messages."""
     queryset = Message.objects.all()
     serializer_class = MessageSerializer
-    permission_classes = [IsAuthenticatedAndParticipant]
-    filter_backends = (DjangoFilterBackend,)  
-    filterset_class = MessageFilter  
+    filter_backends = (DjangoFilterBackend,)
+    pagination_class = CustomPagination 
+    filterset_class = MessageFilter
+    permission_classes = [IsParticipantOfConversation]
 
    
     def get_queryset(self):
