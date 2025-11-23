@@ -4,6 +4,9 @@ from rest_framework import status
 from .models import Conversation, Message
 from .serializers import ConversationSerializer, MessageSerializer
 from .permissions import IsAuthenticatedAndParticipant
+from .filters import MessageFilter
+from django_filters.rest_framework import DjangoFilterBackend
+
 
 
 class ConversationViewSet(viewsets.ModelViewSet):
@@ -29,7 +32,10 @@ class MessageViewSet(viewsets.ModelViewSet):
     """Viewset for handling messages."""
     queryset = Message.objects.all()
     serializer_class = MessageSerializer
-    permission_classes = [IsAuthenticatedAndParticipant] 
+    permission_classes = [IsAuthenticatedAndParticipant]
+    filter_backends = (DjangoFilterBackend,)  
+    filterset_class = MessageFilter  
+
    
     def get_queryset(self):
         user = self.request.user

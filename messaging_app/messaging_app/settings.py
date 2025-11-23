@@ -136,10 +136,12 @@ REST_FRAMEWORK = {
         'rest_framework.authentication.BasicAuthentication',          
         'rest_framework.authentication.SessionAuthentication', 
         ),
-        
+
     'DEFAULT_PERMISSION_CLASSES': (
         'rest_framework.permissions.IsAuthenticated',
     ),
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',  # Use PageNumberPagination
+    'PAGE_SIZE': 20,  # Set default page size to 20 messages
 }
 
 # Simple JWT settings (optional but recommended)
