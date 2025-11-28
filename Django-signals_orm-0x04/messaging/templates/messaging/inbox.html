@@ -1,0 +1,15 @@
+<h2>Your Unread Messages</h2>
+
+<ul>
+    {% for message in unread_messages %}
+        <li>
+            <strong>{{ message.sender.username }}</strong>: {{ message.content }} <br>
+            <small>{{ message.timestamp }}</small>
+            <!-- Optionally add a link to mark as read or view message details -->
+        </li>
+    {% endfor %}
+</ul>
+
+{% if unread_messages.count == 0 %}
+    <p>No unread messages.</p>
+{% endif %}
