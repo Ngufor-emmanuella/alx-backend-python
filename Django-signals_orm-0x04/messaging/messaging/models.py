@@ -12,12 +12,10 @@ class Message(models.Model):
     
 
 class Notification(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)  # The user to notify
-    message = models.ForeignKey(Message, on_delete=models.CASCADE)  # The message linked to the notification
-    timestamp = models.DateTimeField(auto_now_add=True)  # When the notification was created
-    is_read = models.BooleanField(default=False)  # Whether the notification has been read
+    user = models.ForeignKey(User, on_delete=models.CASCADE)  # User to notify
+    message = models.ForeignKey(Message, on_delete=models.CASCADE)  # Linked message
+    timestamp = models.DateTimeField(auto_now_add=True)  # Notification timestamp
+    is_read = models.BooleanField(default=False)  # Read status of the notification
 
     def __str__(self):
         return f'Notification for {self.user}: {self.message.content}'
-
-    

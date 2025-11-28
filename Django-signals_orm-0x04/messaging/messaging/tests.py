@@ -13,4 +13,3 @@ class MessageNotificationTests(TestCase):
         notification = Notification.objects.get(user=self.user2)
         self.assertEqual(notification.message, message)
         self.assertFalse(notification.is_read)
-
