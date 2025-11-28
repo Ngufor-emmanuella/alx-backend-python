@@ -1,4 +1,4 @@
-<h2>Conversation</h2>
+<h2>Your Conversations</h2>
 
 <ul>
     {% for message in messages %}
@@ -12,9 +12,14 @@
                     <li>
                         <strong>{{ reply.sender.username }}</strong>: {{ reply.content }} <br>
                         <small>{{ reply.timestamp }}</small>
-                        {% with replies=get_replies(reply) %}
-                            {% include "messaging/reply_thread.html" with replies=replies %}
-                        {% endwith %}
+                        
+                        {% if reply.replies.all %}
+                            <ul>
+                            {% with replies=reply.replies.all %}
+                                {% include "messaging/reply_thread.html" with replies=replies %}
+                            {% endwith %}
+                            </ul>
+                        {% endif %}
                     </li>
                 {% endfor %}
                 </ul>

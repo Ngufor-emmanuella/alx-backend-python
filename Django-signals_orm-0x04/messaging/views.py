@@ -23,13 +23,14 @@ def delete_user(request):
     return render(request, 'messaging/delete_user.html')
 
 
-def conversation_view(request, user_id):
-    # Fetch all messages sent by the user and their replies
+@login_required
+def conversation_view(request):
+    # Fetch all messages sent by the current user along with their replies
     messages = (
-        Message.objects.select_related('sender', 'receiver')
-        .prefetch_related('replies')
-        .filter(sender_id=user_id)
-        .order_by('timestamp')
+        Message.objects.select_related('sender', 'receiver')  # Optimize querying sender and receiver
+        .prefetch_related('replies')  # Fetch all replies in a single query
+        .filter(sender=request.user)  # Retrieve messages sent by the logged-in user
+        .order_by('timestamp')  # Order messages by timestamp
     )
     return render(request, 'messaging/conversation.html', {'messages': messages})
 
