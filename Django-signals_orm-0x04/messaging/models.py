@@ -6,16 +6,16 @@ class Message(models.Model):
     receiver = models.ForeignKey(User, related_name='received_messages', on_delete=models.CASCADE)
     content = models.TextField()
     timestamp = models.DateTimeField(auto_now_add=True)
+    edited = models.BooleanField(default=False)  # New field to track edits
 
     def __str__(self):
         return f'Message from {self.sender} to {self.receiver}: {self.content}'
     
 
-class Notification(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)  # User to notify
-    message = models.ForeignKey(Message, on_delete=models.CASCADE)  # Linked message
-    timestamp = models.DateTimeField(auto_now_add=True)  # Notification timestamp
-    is_read = models.BooleanField(default=False)  # Read status of the notification
+class MessageHistory(models.Model):
+    message = models.ForeignKey(Message, on_delete=models.CASCADE, related_name='history')
+    old_content = models.TextField()  # Stores the old content of the message
+    edited_at = models.DateTimeField(auto_now_add=True)  # Time of the edit
 
     def __str__(self):
-        return f'Notification for {self.user}: {self.message.content}'
+        return f'History for {self.message}: {self.old_content}'

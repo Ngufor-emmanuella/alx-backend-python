@@ -1,0 +1,10 @@
+<h2>Message Details</h2>
+<p>Content: {{ message.content }}</p>
+{% if message.edited %}
+    <h3>Edit History</h3>
+    <ul>
+    {% for entry in history %}
+        <li>{{ entry.edited_at }}: {{ entry.old_content }}</li>
+    {% endfor %}
+    </ul>
+{% endif %}
