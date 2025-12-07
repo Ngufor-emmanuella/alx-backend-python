@@ -4,7 +4,7 @@ services:
   web:
     build:
       context: .
-      dockerfile: Dockerfile  # Use the Dockerfile you previously created
+      dockerfile: Dockerfile  # Use the existing Dockerfile
     ports:
       - "8000:8000"
     environment:
@@ -21,7 +21,7 @@ services:
       MYSQL_USER: user
       MYSQL_PASSWORD: password
     volumes:
-      - mysql_data:/var/lib/mysql  # Persist the database
+      - mysql_data:/var/lib/mysql  # This line persists the database data
 
 volumes:
   mysql_data:
